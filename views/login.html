@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>ورود به پنل دانشجویی </title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/dist/css/adminlte.min.css">
+	<link rel="stylesheet" href="/dist/css/custom-style.css">
+	<style>
+		body {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-family: Vazir ,sans-serif;
+			height: 100vh;
+		}
+		*{
+			font-family: inherit;
+		}
+		.login_container {
+			display : grid;
+			grid-template-columns: 1fr;
+			gap: 1rem;
+			justify-items: center;
+		}
+		.h3{
+			font-weight: 500;
+		}
+
+		input {
+			padding: 1rem 2rem;
+			background-color: #e6e6e6;
+			font-weight: 500;
+			border-radius: 0.5rem;
+			text-align: right;
+		}
+
+		button{
+			background-color: #827ffe;
+			padding: 1rem 2rem;
+			border-radius: 0.5rem;
+			width: 100%;
+			font-weight: 500;
+			font-size: 1.5rem;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	
+	<div class="login_container">
+		<h3>خوش آمدید</h3>
+		<input id="phone" placeholder="نام کاربری">
+		<input id="password" placeholder="پسورد" type="password">
+		<button onclick="onSubmit()">ورود</button>
+		<button onclick="onRegister()">ثبت نام</button>
+	</div>
+	
+
+	
+</body>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+	function onSubmit(){
+		const phone = document.querySelector("#phone").value;
+		const password = document.querySelector("#password").value;
+
+		if(!phone|| !password)
+			return;
+		axios.post("http://localhost:3001/api/student/login",{phone,password})
+			.then(res=>{
+				console.log(res);
+				localStorage.setItem("token",res.headers["x-auth-token"]);
+				
+				window.location.assign("/views/HomeIndex.html")
+			}).catch(err=>{
+				console.log(err);
+			})
+	}
+
+	function onRegister(){
+		window.location.assign("/views/createStudent.html")
+	        }
+
+</script>
+</html>

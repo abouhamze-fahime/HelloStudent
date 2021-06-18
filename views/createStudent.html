@@ -1,0 +1,100 @@
+<html>
+<head>
+<title> ثبت نام دانشجوی جدید </title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<style >
+    *{
+        direction: rtl;
+       margin: 3%;
+    }
+    form {
+        border: solid 2px rgb(245, 13, 167);
+    }
+ tr td :nth-child(1){
+     width: 300px;
+ }
+ 
+</style>
+</head>
+<body>
+
+   <div class="alert alert-danger text-center " role="alert" style="border-radius: 20px;" >
+    <strong>    <h2> فرم ایجاد دانشجوی جدید   </h2> </strong> </div> 
+
+<form  role="form" onsubmit="return  submitForm()"   method="post">
+<table border="0" align="center">
+<tbody>
+
+<tr>
+<td><label for="code">شماره دانشجو : </label></td>
+<td><input id="code" maxlength="50" name="code" type="text" /></td>
+</tr>
+
+<tr>
+<td><label for="fullName">نام کامل : </label></td>
+<td><input id="fullName" maxlength="50" name="fullName" type="text" /></td>
+</tr>
+
+<tr>
+<td><label for="phone"> موبایل </label></td>
+<td><input id="phone" maxlength="12" name="phone" type="text" /></td>
+</tr>
+
+<tr >
+<td><label for="email">ایمیل: </label></td>
+<td><input id="email" maxlength="50" name="email" type="text" width="400px" /></td>
+</tr>
+
+<tr>
+    <td><label for="password">رمز کاربری:</label></td>
+    <td><input id="password" maxlength="50" name="password" type="password" /></td>
+</tr>
+</tbody>
+</table>
+<input name="Submit" type="Submit" value="درج" />
+</form> 
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    function submitForm() {
+        try {
+            console.log("submit form");
+            const code = document.querySelector("#code").value;
+            const fullName = document.querySelector("#fullName").value;
+            const phone = document.querySelector("#phone").value;
+            const password = document.querySelector("#password").value;
+            const email = document.querySelector("#email").value;
+        
+            if (!code || !fullName || !phone || !password || !email ) {
+                alert("وارد کردن همه موارد الزامی است");
+                
+                return false;
+            }
+            const body = {
+                "code": code,
+                "fullName": fullName,
+                "phone": phone,
+                "password": password,
+                "email" :email
+            }
+            axios.post("http://localhost:3001/api/student/register", body)
+                .then(res => {
+                    alert("با موفقیت ذخیره شد");
+                    window.location.assign("/views/login.html")
+                }).catch(err => {
+                    alert(err.message)
+                })
+            return false;
+        } catch (err) {
+            console.log(err);
+            return false;
+
+        }
+    }
+</script>
+
+</body>
+
+</html>
